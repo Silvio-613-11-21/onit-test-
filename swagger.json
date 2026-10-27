@@ -1,0 +1,336 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My API",
+    "version": "1.0.0",
+    "description": "API для работы с блоками"
+  },
+  "paths": {
+    "/block/create": {
+      "post": {
+        "summary": "Создать блок",
+        "description": "Создаёт новую запись блока в базе данных.",
+        "tags": ["Block"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBlock" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Блок успешно создан",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string", "example": "OK" }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректные данные запроса",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block/getall": {
+      "get": {
+        "summary": "Получить все блоки",
+        "description": "Возвращает список всех блоков из базы данных.",
+        "tags": ["Block"],
+        "responses": {
+          "200": {
+            "description": "Список блоков успешно получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Block" }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block/{id}": {
+      "get": {
+        "summary": "Получить блок по ID",
+        "description": "Возвращает один блок по его уникальному идентификатору.",
+        "tags": ["Block"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Блок успешно найден",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Block" }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID (не число)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "404": {
+            "description": "Блок с указанным ID не найден",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удалить блок по ID",
+        "description": "Удаляет блок из базы данных по его уникальному идентификатору.",
+        "tags": ["Block"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Блок успешно удалён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "блок 1 был удалён"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID (не число)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block/changetitle/{id}": {
+      "patch": {
+        "summary": "Изменить заголовок блока",
+        "description": "Обновляет заголовок существующего блока по его идентификатору.",
+        "tags": ["Block"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Новый заголовок блока",
+                    "example": "Обновлённый заголовок"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Заголовок блока успешно изменён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "блок 1 был изменён"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или блок не найден",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block/createByCurrentDate": {
+      "post": {
+        "summary": "Создать блок с текущей датой",
+        "description": "Создаёт новую запись блока, используя текущую дату сервера и переданный заголовок.",
+        "tags": ["Block"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Заголовок блока",
+                    "example": "Блок на сегодня"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Блок успешно создан (тело ответа пустое)",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string", "example": "" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateBlock": {
+        "type": "object",
+        "required": ["date", "title"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата блока",
+            "example": "2026-10-26T12:00:00.000Z"
+          },
+          "title": {
+            "type": "string",
+            "description": "Заголовок блока",
+            "example": "Мой первый блок"
+          }
+        }
+      },
+      "Block": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Уникальный идентификатор блока",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата блока",
+            "example": "2026-10-26T12:00:00.000Z"
+          },
+          "title": {
+            "type": "string",
+            "description": "Заголовок блока",
+            "example": "Мой первый блок"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Ошибка подключения к БД" }
+        }
+      }
+    }
+  }
+}
