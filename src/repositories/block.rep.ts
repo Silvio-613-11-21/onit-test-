@@ -3,11 +3,8 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 const db = drizzle(process.env.DATABASE_URL!);
 import { eq } from 'drizzle-orm';
 
-import { response, Response } from 'express';
-
 import { block } from '../database/schema.ts';
-import { date } from 'drizzle-orm/cockroach-core';
-import { CreateBlock } from '../models/block.model.ts';
+import type { CreateBlock } from '../models/block.model.ts';
 
 export async function createBlock(newblock: CreateBlock): Promise<void> {
 

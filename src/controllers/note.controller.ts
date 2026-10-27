@@ -1,0 +1,95 @@
+import { createNote } from "../repositories/note.rep.ts";
+import { getAllNote } from "../repositories/note.rep.ts";
+import { getNoteById } from "../repositories/note.rep.ts";
+import { deleteNoteById } from "../repositories/note.rep.ts";
+import { patchNoteTitle } from "../repositories/note.rep.ts";
+
+import type { Request, Response } from "express";
+
+export class NoteController {
+    async create(req: Request, res: Response) {
+        const { blockId, title, description, image } = req.body ?? {};
+
+        try {
+            await createNote({ blockId, title, description, image });
+            return res.status(200).send();
+        } catch (e) {
+            console.error('Ошибка при работе с бд:', e);
+            return res.status(500).send();
+        }
+    }
+
+    async getAll(req: Request, res: Response) {
+        try {
+            const allNote = await getAllNote();
+            return res.status(200).json(allNote);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при получении списка" });
+        }
+    }
+
+    async getById(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const note = await getNoteById(numId);
+            return res.status(200).json(note);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при получении заметки" });
+        }
+    }
+
+    async deleteById(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isDeleted = await deleteNoteById(numId);
+
+            if (isDeleted) {
+                return res.status(200).json({ mess: `заметка ${numId} была удалена` });
+            } else {
+                return res.status(400).json({ error: `Заметка с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при удалении заметки" });
+        }
+    }
+
+    async changeTitle(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const { title } = req.body as { title: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isUpdated = await patchNoteTitle(numId, title);
+
+            if (isUpdated) {
+                return res.status(200).json({ mess: `заметка ${numId} была изменена` });
+            } else {
+                return res.status(400).json({ error: `Заметка с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при изменении заметки" });
+        }
+    }
+}
+
+export default new NoteController();
