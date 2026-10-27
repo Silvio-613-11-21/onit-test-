@@ -7,7 +7,7 @@
 
 ## Сущности <br/>
 
--block <br/>
+- block <br/>
 | id | date | title?(optional) | 
     
 - task <br/>
