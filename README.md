@@ -5,9 +5,9 @@
 
 
 
-## Сущности 
+## Сущности <br/>
 
-- block <br/>
+-block <br/>
 | id | date | title?(optional) | 
     
 - task <br/>
@@ -19,5 +19,5 @@
 - note <br/>
 | id | blockId(foreign key) | title | description?(optional) | 
 
-- [ ] Задача
+
 

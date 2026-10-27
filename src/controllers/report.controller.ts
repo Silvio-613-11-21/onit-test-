@@ -1,5 +1,5 @@
 //сервисы
-import  createMdFile  from "../services/createMdFile.ts";
+import  createMdFileContent  from "../services/createMdFileContent.ts";
 //
 
 //репы 
@@ -39,7 +39,7 @@ export class ReportController{
                 subtasks.push(subtask)
             }
 
-            let fileContent = createMdFile(blocks, tasks, subtasks, notes)
+            let fileContent = createMdFileContent(blocks, tasks, subtasks, notes)
         }
         catch(e){
             console.error(e)
