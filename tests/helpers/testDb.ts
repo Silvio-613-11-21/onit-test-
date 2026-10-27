@@ -4,9 +4,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { sql } from 'drizzle-orm';
 
-function normalize(url: string) {
-    return url.trim().replace('postgresql+psycopg2', 'postgresql');
-}
+
 
 const mainUrl = process.env.DATABASE_URL;
 
@@ -17,14 +15,14 @@ export function testDbUrl() {
         throw new Error("TEST_DATABASE_URL не задан в .env");
     }
 
-    const test = new URL(normalize(testUrl));
-    const main = mainUrl ? new URL(normalize(mainUrl)) : undefined;
+    const test = new URL(testUrl);
+    const main = mainUrl ? new URL(mainUrl) : undefined;
 
     if (main && main.host === test.host && main.pathname === test.pathname) {
         throw new Error("TEST_DATABASE_URL указывает на ту же базу, что и DATABASE_URL");
     }
 
-    return normalize(testUrl);
+    return testUrl;
 }
 
 function databaseName(url: string) {
