@@ -5,6 +5,7 @@ import { deleteSubtaskById } from "../repositories/subtask.rep.ts";
 import { patchSubtaskTitle } from "../repositories/subtask.rep.ts";
 import { patchSubtaskDescription } from "../repositories/subtask.rep.ts";
 import { patchSubtaskState } from "../repositories/subtask.rep.ts";
+import { getSubtasksByTaskId } from "../repositories/subtask.rep.ts";
 
 import type { Request, Response } from "express";
 
@@ -136,6 +137,23 @@ export class SubtaskController {
         } catch (e) {
             console.error(e);
             return res.status(500).json({ error: "Ошибка при изменении подзадачи" });
+        }
+    }
+
+    async getByTaskId(req: Request, res: Response) {
+        const { taskId } = req.params as { taskId: string };
+        const numTaskId = parseInt(taskId);
+
+        if (isNaN(numTaskId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const subtasks = await getSubtasksByTaskId(numTaskId);
+            return res.status(200).json(subtasks);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при получении подзадач" });
         }
     }
 }

@@ -4,6 +4,7 @@ import { getNoteById } from "../repositories/note.rep.ts";
 import { deleteNoteById } from "../repositories/note.rep.ts";
 import { patchNoteTitle } from "../repositories/note.rep.ts";
 import { patchNoteDescription } from "../repositories/note.rep.ts";
+import { getNotesByBlockId } from "../repositories/note.rep.ts";
 
 import type { Request, Response } from "express";
 
@@ -112,6 +113,23 @@ export class NoteController {
         } catch (e) {
             console.error(e);
             return res.status(500).json({ error: "Ошибка при изменении заметки" });
+        }
+    }
+
+    async getByBlockId(req: Request, res: Response) {
+        const { blockId } = req.params as { blockId: string };
+        const numBlockId = parseInt(blockId);
+
+        if (isNaN(numBlockId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const notes = await getNotesByBlockId(numBlockId);
+            return res.status(200).json(notes);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при получении заметок" });
         }
     }
 }

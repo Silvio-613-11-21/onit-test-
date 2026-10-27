@@ -9,6 +9,7 @@ import blockroute from './src/routes/block.route.ts'
 import noteroute from './src/routes/note.route.ts'
 import taskroute from './src/routes/task.route.ts'
 import subtaskroute from './src/routes/subtask.route.ts'
+import reportroute from './src/routes/report.route.ts'
 
 const app: Express = express();
 let port = Number(process.env.PORT) ?? 3000 
@@ -21,6 +22,7 @@ app.use('/block', blockroute)
 app.use('/note', noteroute)
 app.use('/task', taskroute)
 app.use('/subtask', subtaskroute)
+app.use('/report', reportroute)
 
 app.listen(port, host, () =>{
     console.log(`http://${host}:${port}/api-docs`)

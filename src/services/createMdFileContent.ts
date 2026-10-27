@@ -1,7 +1,7 @@
-import { Block } from "../models/block.model.ts";
-import { Task } from "../models/task.model.ts";
-import { Subtask } from "../models/subtask.model.ts";
-import { Note } from "../models/note.model.ts"
+import type { Block } from "../models/block.model.ts";
+import type { Task } from "../models/task.model.ts";
+import type { Subtask } from "../models/subtask.model.ts";
+import type { Note } from "../models/note.model.ts"
 
 export default function createMdFileContent
     (
@@ -69,7 +69,7 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
 
         for (const subtask of subtasks) {
             if (subtask[0].taskId != task.id) {
-                break
+                continue
             }
             else {
 
@@ -97,6 +97,7 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
         }
     }
 
+    return c
 }
 
 

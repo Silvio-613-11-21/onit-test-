@@ -5,6 +5,7 @@ import { deleteTaskById } from "../repositories/task.rep.ts";
 import { patchTaskTitle } from "../repositories/task.rep.ts";
 import { patchTaskDescription } from "../repositories/task.rep.ts";
 import { patchTaskState } from "../repositories/task.rep.ts";
+import { getTasksByBlockId } from "../repositories/task.rep.ts";
 
 import type { Request, Response } from "express";
 
@@ -136,6 +137,23 @@ export class TaskController {
         } catch (e) {
             console.error(e);
             return res.status(500).json({ error: "Ошибка при изменении задачи" });
+        }
+    }
+
+    async getByBlockId(req: Request, res: Response) {
+        const { blockId } = req.params as { blockId: string };
+        const numBlockId = parseInt(blockId);
+
+        if (isNaN(numBlockId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const tasks = await getTasksByBlockId(numBlockId);
+            return res.status(200).json(tasks);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при получении задач" });
         }
     }
 }

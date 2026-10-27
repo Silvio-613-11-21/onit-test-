@@ -353,6 +353,51 @@
         }
       }
     },
+    "/note/getbyblockid/{blockId}": {
+      "get": {
+        "summary": "Получить заметки блока",
+        "description": "Возвращает список всех заметок, относящихся к блоку.",
+        "tags": ["Note"],
+        "parameters": [
+          {
+            "name": "blockId",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список заметок блока успешно получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Note" }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID (не число)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/note/{id}": {
       "get": {
         "summary": "Получить заметку по ID",
@@ -642,6 +687,51 @@
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/Task" }
                 }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/getbyblockid/{blockId}": {
+      "get": {
+        "summary": "Получить задачи блока",
+        "description": "Возвращает список всех задач, относящихся к блоку.",
+        "tags": ["Task"],
+        "parameters": [
+          {
+            "name": "blockId",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список задач блока успешно получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Task" }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID (не число)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           },
@@ -1027,6 +1117,51 @@
         }
       }
     },
+    "/subtask/getbytaskid/{taskId}": {
+      "get": {
+        "summary": "Получить подзадачи задачи",
+        "description": "Возвращает список всех подзадач, относящихся к задаче.",
+        "tags": ["Subtask"],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор задачи",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список подзадач задачи успешно получен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Subtask" }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID (не число)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/subtask/{id}": {
       "get": {
         "summary": "Получить подзадачу по ID",
@@ -1312,6 +1447,48 @@
           },
           "400": {
             "description": "Некорректный ID или подзадача не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/{blockId}": {
+      "get": {
+        "summary": "Получить отчёт по блоку",
+        "description": "Формирует отчёт по блоку с его заметками, задачами и подзадачами и отправляет файл report.md.",
+        "tags": ["Report"],
+        "parameters": [
+          {
+            "name": "blockId",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор блока",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Файл report.md успешно сформирован",
+            "content": {
+              "text/markdown": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или блок не найден",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/Error" }
