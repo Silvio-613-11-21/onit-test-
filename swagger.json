@@ -587,74 +587,6 @@
         }
       }
     },
-    "/note/changeimage/{id}": {
-      "patch": {
-        "summary": "Изменить изображение заметки",
-        "description": "Обновляет изображение существующей заметки по её идентификатору.",
-        "tags": ["Note"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Числовой идентификатор заметки",
-            "schema": { "type": "integer", "example": 1 }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["image"],
-                "properties": {
-                  "image": {
-                    "type": "string",
-                    "description": "Новая ссылка на изображение",
-                    "example": "https://example.com/image.png"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Изображение заметки успешно изменено",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "mess": {
-                      "type": "string",
-                      "example": "заметка 1 была изменена"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Некорректный ID или заметка не найдена",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
-              }
-            }
-          },
-          "500": {
-            "description": "Ошибка на стороне сервера / ошибка БД",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
-              }
-            }
-          }
-        }
-      }
-    },
     "/task/create": {
       "post": {
         "summary": "Создать задачу",
@@ -1456,11 +1388,6 @@
             "type": "string",
             "description": "Описание заметки",
             "example": "Текст заметки"
-          },
-          "image": {
-            "type": "string",
-            "description": "Ссылка на изображение",
-            "example": "https://example.com/image.png"
           }
         }
       },
@@ -1486,11 +1413,6 @@
             "type": "string",
             "description": "Описание заметки",
             "example": "Текст заметки"
-          },
-          "image": {
-            "type": "string",
-            "description": "Ссылка на изображение",
-            "example": "https://example.com/image.png"
           }
         }
       },

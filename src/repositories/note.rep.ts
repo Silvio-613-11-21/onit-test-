@@ -12,7 +12,6 @@ export async function createNote(newnote: CreateNote): Promise<void> {
         blockId: newnote.blockId,
         title: newnote.title,
         description: newnote.description,
-        image: newnote.image,
     } 
     await db.insert(note).values(newnote_)
 }
@@ -40,10 +39,5 @@ export async function patchNoteTitle(id: number, newTitle: string) {
 
 export async function patchNoteDescription(id: number, newDescription: string) {
     let updated = await db.update(note).set({description: newDescription}).where(eq(note.id, id)).returning({ id: note.id });
-    return updated.length > 0;
-}
-
-export async function patchNoteImage(id: number, newImage: string) {
-    let updated = await db.update(note).set({image: newImage}).where(eq(note.id, id)).returning({ id: note.id });
     return updated.length > 0;
 }

@@ -4,16 +4,15 @@ import { getNoteById } from "../repositories/note.rep.ts";
 import { deleteNoteById } from "../repositories/note.rep.ts";
 import { patchNoteTitle } from "../repositories/note.rep.ts";
 import { patchNoteDescription } from "../repositories/note.rep.ts";
-import { patchNoteImage } from "../repositories/note.rep.ts";
 
 import type { Request, Response } from "express";
 
 export class NoteController {
     async create(req: Request, res: Response) {
-        const { blockId, title, description, image } = req.body ?? {};
+        const { blockId, title, description } = req.body ?? {};
 
         try {
-            await createNote({ blockId, title, description, image });
+            await createNote({ blockId, title, description });
             return res.status(200).send();
         } catch (e) {
             console.error('Ошибка при работе с бд:', e);
@@ -104,29 +103,6 @@ export class NoteController {
 
         try {
             const isUpdated = await patchNoteDescription(numId, description);
-
-            if (isUpdated) {
-                return res.status(200).json({ mess: `заметка ${numId} была изменена` });
-            } else {
-                return res.status(400).json({ error: `Заметка с id=${numId} не найдена` });
-            }
-        } catch (e) {
-            console.error(e);
-            return res.status(500).json({ error: "Ошибка при изменении заметки" });
-        }
-    }
-
-    async changeImage(req: Request, res: Response) {
-        const { id } = req.params as { id: string };
-        const { image } = req.body as { image: string };
-        const numId = parseInt(id);
-
-        if (isNaN(numId)) {
-            return res.status(400).json({ error: "Некорректный ID" });
-        }
-
-        try {
-            const isUpdated = await patchNoteImage(numId, image);
 
             if (isUpdated) {
                 return res.status(200).json({ mess: `заметка ${numId} была изменена` });
