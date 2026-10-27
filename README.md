@@ -17,4 +17,4 @@
 | id | taskId(foreign key) | title | description?(optional) | state(boolean) |  
 
 - note <br/>
-| id | blockId(foreign key) | title | description?(optional) | image?(optional) | 
+| id | blockId(foreign key) | title | description?(optional) | 

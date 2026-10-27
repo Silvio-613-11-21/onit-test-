@@ -16,7 +16,6 @@ export const note = pgTable("note", {
     .references(() => block.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   description: text("description"),
-  image: text("image"),
 });
 
 export const task = pgTable("task", {
