@@ -20,3 +20,49 @@
 | id | blockId(foreign key) | title | description?(optional) | 
 
 
+
+## Запуск <br/>
+
+```
+npm install
+npm run db:migrate
+npm run dev
+```
+
+Swagger: `http://${HOST}:${PORT}/api-docs`
+
+## Миграции <br/>
+
+Миграции лежат в `drizzle/`. Каждая миграция — это папка с `migration.sql` (SQL, который создаёт/меняет таблицы)
+и `snapshot.json` (состояние схемы на этот момент).
+
+```
+npm run db:generate   # после изменения src/database/schema.ts — создать новую миграцию
+npm run db:migrate    # применить неприменённые миграции к базе из DATABASE_URL
+```
+
+Применить миграции к тестовой базе:
+
+```
+DATABASE_URL="postgresql://postgres:admin@localhost:5432/postgre-test" npm run db:migrate
+```
+
+## Тесты <br/>
+
+```
+npm test              # все тесты
+npm run test:unit     # только unit-тесты (база не нужна)
+npm run test:integration  # только интеграционные (нужна тестовая база)
+```
+
+Тестовая база берётся из `TEST_DATABASE_URL` в `.env`, схема накатывается миграциями автоматически,
+перед каждым тестом таблицы очищаются.
+
+```
+tests/
+  unit/          # createMdFileContent.test.ts, controllers.test.ts
+  integration/   # api.test.ts
+  helpers/       # testDb.ts (база, миграции, очистка), http.ts (запуск сервера и запросы)
+```
+
+Если тестовая база называется иначе или лежит на другом порту — поправьте `TEST_DATABASE_URL` в `.env`.
