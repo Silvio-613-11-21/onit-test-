@@ -4,25 +4,16 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { sql } from 'drizzle-orm';
 
-
-
-const mainUrl = process.env.DATABASE_URL;
+process.env.NODE_ENV = 'test';
 
 export function testDbUrl() {
-    const testUrl = process.env.TEST_DATABASE_URL;
+    const url = process.env.TEST_DATABASE_URL;
 
-    if (!testUrl) {
+    if (!url) {
         throw new Error("TEST_DATABASE_URL не задан в .env");
     }
 
-    const test = new URL(testUrl);
-    const main = mainUrl ? new URL(mainUrl) : undefined;
-
-    if (main && main.host === test.host && main.pathname === test.pathname) {
-        throw new Error("TEST_DATABASE_URL указывает на ту же базу, что и DATABASE_URL");
-    }
-
-    return testUrl;
+    return url.trim();
 }
 
 function databaseName(url: string) {

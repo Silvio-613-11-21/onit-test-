@@ -1,8 +1,6 @@
-import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/node-postgres';
-const db = drizzle(process.env.DATABASE_URL!);
 import { eq } from 'drizzle-orm';
 
+import { db } from '../database/db.ts';
 import { block } from '../database/schema.ts';
 import type { CreateBlock } from '../models/block.model.ts';
 

@@ -2,10 +2,8 @@ import 'dotenv/config';
 import { test, before, beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { testDbUrl, applyMigrations, resetDatabase, closeDatabase } from '../helpers/testDb.ts';
+import { applyMigrations, resetDatabase, closeDatabase } from '../helpers/testDb.ts';
 import { startTestServer, request } from '../helpers/http.ts';
-
-process.env.DATABASE_URL = testDbUrl();
 
 const { default: app } = await import('../../src/app.ts');
 
