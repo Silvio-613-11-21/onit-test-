@@ -11,12 +11,12 @@
 
 Миграция бд 
 ```
-  drizzle-kit generate
-  drizzle-kit migrate
+  npx drizzle-kit generate
+  npx drizzle-kit migrate
 ```
 или
 ```
-  drizzle-kit push
+  npx drizzle-kit push
 ```
 
 Запуск
