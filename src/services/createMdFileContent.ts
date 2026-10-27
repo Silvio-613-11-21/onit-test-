@@ -14,10 +14,11 @@ export default function createMdFileContent
 
     const block = blocks[0]
     content += addBlockTitle(block)
-    content += '## Tasks <br/>'
+    content += '## Tasks \n'
     content += addTasks(tasks, subtasks)
-    content += '<br/>'
-    content += '## Notes <br/>' 
+    content += '\n'
+    content += '\n'
+    content += '## Notes \n' 
     content += addNotes(notes)
 
     return content
@@ -28,12 +29,12 @@ function addNotes(notes: Note[]){
 
     for(const note of notes){
         c += '- '
-        c += `${note.title}`
-        c += '<br/>'
+        c += `<span id = "${note.id}" >${note.title}</span>`
+        c += '\n'
 
         if(note.description){
             c += `${note.description}`
-            c += '<br/>'
+            c += '\n'
         }
     }
     
@@ -44,7 +45,7 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
     let c = ''
 
     for (const task of tasks) {
-        c += '\t'
+        
 
         if (task.state) {
             c += '- [x] '
@@ -59,12 +60,12 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
         else {
             c += `${task.title}`
         }
-        c += '<br/>'
+        c += '\n'
 
         if (task.description) {
             c += '\t'
             c += `${task.description}`
-            c += '<br/>'
+            c += '\n'
         }
 
         for (const subtask of subtasks) {
@@ -74,7 +75,7 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
             else {
 
                 for (const subtask_ of subtask) {
-                    c += '\t\t'
+                    c += '\t'
 
                     if (subtask_.state) {
                         c += '- [x] '
@@ -84,12 +85,12 @@ function addTasks(tasks: Task[], subtasks: Subtask[][]) {
                     }
 
                     c += `${subtask_.title}`
-                    c += '<br/>'
+                    c += '\n'
 
                     if (subtask_.description) {
-                        c += '\t\t'
+                        c += '\t'
                         c += `${subtask_.description}`
-                        c += '<br/>'
+                        c += '\n'
                     }
                 }
             }
@@ -114,6 +115,6 @@ function addBlockTitle(block: Block) {
         c += `${block.title}`
     }
 
-    c += '<br/>'
+    c += '\n'
     return c
 }
