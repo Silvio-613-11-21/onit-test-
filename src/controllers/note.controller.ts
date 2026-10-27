@@ -3,6 +3,8 @@ import { getAllNote } from "../repositories/note.rep.ts";
 import { getNoteById } from "../repositories/note.rep.ts";
 import { deleteNoteById } from "../repositories/note.rep.ts";
 import { patchNoteTitle } from "../repositories/note.rep.ts";
+import { patchNoteDescription } from "../repositories/note.rep.ts";
+import { patchNoteImage } from "../repositories/note.rep.ts";
 
 import type { Request, Response } from "express";
 
@@ -79,6 +81,52 @@ export class NoteController {
 
         try {
             const isUpdated = await patchNoteTitle(numId, title);
+
+            if (isUpdated) {
+                return res.status(200).json({ mess: `заметка ${numId} была изменена` });
+            } else {
+                return res.status(400).json({ error: `Заметка с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при изменении заметки" });
+        }
+    }
+
+    async changeDescription(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const { description } = req.body as { description: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isUpdated = await patchNoteDescription(numId, description);
+
+            if (isUpdated) {
+                return res.status(200).json({ mess: `заметка ${numId} была изменена` });
+            } else {
+                return res.status(400).json({ error: `Заметка с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при изменении заметки" });
+        }
+    }
+
+    async changeImage(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const { image } = req.body as { image: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isUpdated = await patchNoteImage(numId, image);
 
             if (isUpdated) {
                 return res.status(200).json({ mess: `заметка ${numId} была изменена` });

@@ -519,6 +519,142 @@
         }
       }
     },
+    "/note/changedescription/{id}": {
+      "patch": {
+        "summary": "Изменить описание заметки",
+        "description": "Обновляет описание существующей заметки по её идентификатору.",
+        "tags": ["Note"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор заметки",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["description"],
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Новое описание заметки",
+                    "example": "Обновлённое описание"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Описание заметки успешно изменено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "заметка 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или заметка не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/note/changeimage/{id}": {
+      "patch": {
+        "summary": "Изменить изображение заметки",
+        "description": "Обновляет изображение существующей заметки по её идентификатору.",
+        "tags": ["Note"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор заметки",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["image"],
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "description": "Новая ссылка на изображение",
+                    "example": "https://example.com/image.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Изображение заметки успешно изменено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "заметка 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или заметка не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/task/create": {
       "post": {
         "summary": "Создать задачу",
@@ -754,6 +890,142 @@
         }
       }
     },
+    "/task/changedescription/{id}": {
+      "patch": {
+        "summary": "Изменить описание задачи",
+        "description": "Обновляет описание существующей задачи по её идентификатору.",
+        "tags": ["Task"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор задачи",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["description"],
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Новое описание задачи",
+                    "example": "Обновлённое описание"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Описание задачи успешно изменено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "задача 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или задача не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/changestate/{id}": {
+      "patch": {
+        "summary": "Изменить состояние задачи",
+        "description": "Обновляет состояние выполнения существующей задачи по её идентификатору.",
+        "tags": ["Task"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор задачи",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["state"],
+                "properties": {
+                  "state": {
+                    "type": "boolean",
+                    "description": "Новое состояние выполнения задачи",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Состояние задачи успешно изменено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "задача 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или задача не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/subtask/create": {
       "post": {
         "summary": "Создать подзадачу",
@@ -956,6 +1228,142 @@
         "responses": {
           "200": {
             "description": "Заголовок подзадачи успешно изменён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "подзадача 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или подзадача не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subtask/changedescription/{id}": {
+      "patch": {
+        "summary": "Изменить описание подзадачи",
+        "description": "Обновляет описание существующей подзадачи по её идентификатору.",
+        "tags": ["Subtask"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор подзадачи",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["description"],
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Новое описание подзадачи",
+                    "example": "Обновлённое описание"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Описание подзадачи успешно изменено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mess": {
+                      "type": "string",
+                      "example": "подзадача 1 была изменена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный ID или подзадача не найдена",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка на стороне сервера / ошибка БД",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subtask/changestate/{id}": {
+      "patch": {
+        "summary": "Изменить состояние подзадачи",
+        "description": "Обновляет состояние выполнения существующей подзадачи по её идентификатору.",
+        "tags": ["Subtask"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Числовой идентификатор подзадачи",
+            "schema": { "type": "integer", "example": 1 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["state"],
+                "properties": {
+                  "state": {
+                    "type": "boolean",
+                    "description": "Новое состояние выполнения подзадачи",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Состояние подзадачи успешно изменено",
             "content": {
               "application/json": {
                 "schema": {

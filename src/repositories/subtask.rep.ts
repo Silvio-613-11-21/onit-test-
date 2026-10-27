@@ -37,3 +37,13 @@ export async function patchSubtaskTitle(id: number, newTitle: string) {
     let updated = await db.update(subtask).set({title: newTitle}).where(eq(subtask.id, id)).returning({ id: subtask.id });
     return updated.length > 0;
 }
+
+export async function patchSubtaskDescription(id: number, newDescription: string) {
+    let updated = await db.update(subtask).set({description: newDescription}).where(eq(subtask.id, id)).returning({ id: subtask.id });
+    return updated.length > 0;
+}
+
+export async function patchSubtaskState(id: number, newState: boolean) {
+    let updated = await db.update(subtask).set({state: newState}).where(eq(subtask.id, id)).returning({ id: subtask.id });
+    return updated.length > 0;
+}

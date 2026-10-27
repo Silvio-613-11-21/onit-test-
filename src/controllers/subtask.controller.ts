@@ -3,6 +3,8 @@ import { getAllSubtask } from "../repositories/subtask.rep.ts";
 import { getSubtaskById } from "../repositories/subtask.rep.ts";
 import { deleteSubtaskById } from "../repositories/subtask.rep.ts";
 import { patchSubtaskTitle } from "../repositories/subtask.rep.ts";
+import { patchSubtaskDescription } from "../repositories/subtask.rep.ts";
+import { patchSubtaskState } from "../repositories/subtask.rep.ts";
 
 import type { Request, Response } from "express";
 
@@ -79,6 +81,52 @@ export class SubtaskController {
 
         try {
             const isUpdated = await patchSubtaskTitle(numId, title);
+
+            if (isUpdated) {
+                return res.status(200).json({ mess: `подзадача ${numId} была изменена` });
+            } else {
+                return res.status(400).json({ error: `Подзадача с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при изменении подзадачи" });
+        }
+    }
+
+    async changeDescription(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const { description } = req.body as { description: string };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isUpdated = await patchSubtaskDescription(numId, description);
+
+            if (isUpdated) {
+                return res.status(200).json({ mess: `подзадача ${numId} была изменена` });
+            } else {
+                return res.status(400).json({ error: `Подзадача с id=${numId} не найдена` });
+            }
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ error: "Ошибка при изменении подзадачи" });
+        }
+    }
+
+    async changeState(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        const { state } = req.body as { state: boolean };
+        const numId = parseInt(id);
+
+        if (isNaN(numId)) {
+            return res.status(400).json({ error: "Некорректный ID" });
+        }
+
+        try {
+            const isUpdated = await patchSubtaskState(numId, state);
 
             if (isUpdated) {
                 return res.status(200).json({ mess: `подзадача ${numId} была изменена` });

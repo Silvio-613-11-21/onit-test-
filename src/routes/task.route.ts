@@ -8,5 +8,7 @@ router.get('/getall', taskController.getAll);
 router.get('/:id', taskController.getById);
 router.delete('/:id', taskController.deleteById);
 router.patch('/changetitle/:id', taskController.changeTitle);
+router.patch('/changedescription/:id', taskController.changeDescription);
+router.patch('/changestate/:id', taskController.changeState);
 
 export default router;

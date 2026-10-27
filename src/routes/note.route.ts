@@ -8,5 +8,7 @@ router.get('/getall', noteController.getAll);
 router.get('/:id', noteController.getById);
 router.delete('/:id', noteController.deleteById);
 router.patch('/changetitle/:id', noteController.changeTitle);
+router.patch('/changedescription/:id', noteController.changeDescription);
+router.patch('/changeimage/:id', noteController.changeImage);
 
 export default router;

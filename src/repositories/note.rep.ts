@@ -37,3 +37,13 @@ export async function patchNoteTitle(id: number, newTitle: string) {
     let updated = await db.update(note).set({title: newTitle}).where(eq(note.id, id)).returning({ id: note.id });
     return updated.length > 0;
 }
+
+export async function patchNoteDescription(id: number, newDescription: string) {
+    let updated = await db.update(note).set({description: newDescription}).where(eq(note.id, id)).returning({ id: note.id });
+    return updated.length > 0;
+}
+
+export async function patchNoteImage(id: number, newImage: string) {
+    let updated = await db.update(note).set({image: newImage}).where(eq(note.id, id)).returning({ id: note.id });
+    return updated.length > 0;
+}

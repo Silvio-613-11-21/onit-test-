@@ -38,3 +38,13 @@ export async function patchTaskTitle(id: number, newTitle: string) {
     let updated = await db.update(task).set({title: newTitle}).where(eq(task.id, id)).returning({ id: task.id });
     return updated.length > 0;
 }
+
+export async function patchTaskDescription(id: number, newDescription: string) {
+    let updated = await db.update(task).set({description: newDescription}).where(eq(task.id, id)).returning({ id: task.id });
+    return updated.length > 0;
+}
+
+export async function patchTaskState(id: number, newState: boolean) {
+    let updated = await db.update(task).set({state: newState}).where(eq(task.id, id)).returning({ id: task.id });
+    return updated.length > 0;
+}
