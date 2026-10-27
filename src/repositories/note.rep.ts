@@ -41,3 +41,10 @@ export async function patchNoteDescription(id: number, newDescription: string) {
     let updated = await db.update(note).set({description: newDescription}).where(eq(note.id, id)).returning({ id: note.id });
     return updated.length > 0;
 }
+
+// ------------------------------
+
+export async function getNotesByBlockId(blockId: number) {
+    let notes = db.select().from(note).where(eq(note.blockId, blockId))
+    return notes
+}

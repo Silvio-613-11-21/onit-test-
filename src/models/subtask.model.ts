@@ -2,7 +2,7 @@ export interface Subtask {
     id: number, 
     taskId: number,
     title: string,
-    description?: string,
+    description: string | null,
     state?: boolean,
 }
 

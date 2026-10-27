@@ -1,12 +1,18 @@
 
+//репы
 import { createBlock } from "../repositories/block.rep.ts";
 import { createBlockByCurrentDate } from "../repositories/block.rep.ts";
 import { getAllBlock } from "../repositories/block.rep.ts";
 import { getBlockById } from "../repositories/block.rep.ts";
 import { deleteBlockById } from "../repositories/block.rep.ts";
 import { patchBlockTitle } from "../repositories/block.rep.ts";
+//
 
+
+
+//из либы
 import type { Request, Response } from "express";
+//
 
 export class BlockController {
     async create(req: Request, res: Response) {
@@ -104,6 +110,8 @@ export class BlockController {
             return res.status(500).json({ error: "Ошибка при изминении блока" });
         }
     }
+
+    
 }
 
 export default new BlockController();

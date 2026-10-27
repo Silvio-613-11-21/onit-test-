@@ -47,3 +47,9 @@ export async function patchSubtaskState(id: number, newState: boolean) {
     let updated = await db.update(subtask).set({state: newState}).where(eq(subtask.id, id)).returning({ id: subtask.id });
     return updated.length > 0;
 }
+
+// ---- 
+export async function getSubtasksByTaskId(taskId:number) {
+    let subtasks = await db.select().from(subtask).where(eq(subtask.taskId, taskId)) 
+    return subtasks
+}

@@ -48,3 +48,10 @@ export async function patchTaskState(id: number, newState: boolean) {
     let updated = await db.update(task).set({state: newState}).where(eq(task.id, id)).returning({ id: task.id });
     return updated.length > 0;
 }
+
+//--------
+
+export async function getTasksByBlockId(blockId:number) {
+    let tasks = await db.select().from(task).where(eq(task.blockId, blockId)) 
+    return tasks
+}
