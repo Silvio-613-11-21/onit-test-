@@ -1,53 +1,26 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import { Client } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { sql } from 'drizzle-orm';
 
-process.env.NODE_ENV = 'test';
 
-export function testDbUrl() {
-    const url = process.env.TEST_DATABASE_URL;
+dotenv.config({path: '../../env.testing'})
+const db_url =  process.env.DATABASE_URL
 
-    if (!url) {
-        throw new Error("TEST_DATABASE_URL не задан в .env");
+export async function testDB(){
+    if(!db_url){
+        throw new Error("DATABASE_URL не задан в .env.testing");
     }
-
-    return url.trim();
-}
-
-function databaseName(url: string) {
-    return decodeURIComponent(new URL(url).pathname.replace(/^\//, ''));
-}
-
-export async function ensureTestDatabase() {
-    const url = testDbUrl();
-    const dbName = databaseName(url);
-    const adminUrl = new URL(url);
-
-    adminUrl.pathname = '/postgres';
-
-    const client = new Client({ connectionString: adminUrl.toString() });
-    await client.connect();
-
-    try {
-        const exists = await client.query('select 1 from pg_database where datname = $1', [dbName]);
-
-        if (exists.rowCount === 0) {
-            await client.query(`create database "${dbName.replace(/"/g, '""')}"`);
-            console.log(`создана тестовая база ${dbName}`);
-        } else {
-            console.log(`тестовая база ${dbName} найдена, очищаю данные`);
-        }
-    } finally {
-        await client.end();
+    else{
+        return db_url
     }
 }
 
-const db = drizzle(testDbUrl());
+const db = drizzle(await testDB());
 
 export async function applyMigrations() {
-    await ensureTestDatabase();
+    await testDB();
     await db.execute(sql`drop schema if exists drizzle cascade`);
     await db.execute(sql`drop schema if exists public cascade`);
     await db.execute(sql`create schema public`);

@@ -95,6 +95,7 @@ test('отчёт по блоку отдаётся файлом report.md с за
     const report = await request(server.baseUrl, 'GET', `/report/${block.id}`);
 
     assert.equal(report.status, 200);
+    
     assert.match(report.headers.get('content-type')!, /text\/markdown/);
     assert.match(report.headers.get('content-disposition')!, /attachment; filename=report.md/);
     assert.match(report.text, /# \[2026-10-27\] Отчётный день/);

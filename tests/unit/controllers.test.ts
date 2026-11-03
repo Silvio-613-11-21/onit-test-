@@ -31,7 +31,7 @@ function mockResponse() {
 }
 
 function mockRequest(params: Record<string, string>) {
-    return { params, body: {} } as unknown as Request;
+    return { params, body: {} } as unknown  as Request;
 }
 
 test('block getById на нечисловой id отвечает 400', async () => {
