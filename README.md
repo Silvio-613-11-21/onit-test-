@@ -51,12 +51,12 @@
   npm test
 ```
 
-Только unit-тесты (база не нужна)
+Только unit-тесты 
 ```
   npm run test:unit
 ```
 
-Только интеграционные (нужна база из `TEST_DATABASE_URL`)
+Только интеграционные 
 ```
   npm run test:integration
 ```
