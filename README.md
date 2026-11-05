@@ -61,4 +61,50 @@
   npm run test:integration
 ```
 
+## Доакер
 
+## Запуск через Docker
+
+Требуется Docker Desktop.
+
+Сборка и запуск (приложение + PostgreSQL, миграции применяются автоматически):
+
+```powershell
+docker compose up --build
+```
+
+Swagger UI: http://localhost:8080/api-docs
+
+Остановка (данные БД сохраняются в volume):
+
+```powershell
+docker compose down
+```
+
+Полный сброс вместе с данными БД:
+
+```powershell
+docker compose down -v
+```
+
+Проверка: создать запись через API → `docker compose down` →
+`docker compose up` → запись по-прежнему доступна через `GET /block/getall`.
+
+Тесты:
+
+
+
+Для запуска всех unit- и интеграционных тестов в Docker:
+
+```powershell
+docker compose -f compose.tests.yaml up --build --exit-code-from backend
+```
+
+Команда возвращает код завершения тестов. Тестовая БД запускается отдельно
+от основной, не публикует порт и хранит данные только до остановки контейнера.
+Интеграционные тесты удаляют и создают её схемы заново; данные основной БД
+не затрагиваются. Для удаления тестовых контейнеров и сети выполните:
+
+```powershell
+docker compose -f compose.tests.yaml down
+```
